@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include "kmp.h"
 
 //Function compute longest prefix suffix in the array
 void DoLPS(char* pattern, int M, int* lps)
 {
-    int length;
+    int length=0;
     lps[0] = 0;
     int i = 1;
 
@@ -58,10 +59,3 @@ void KMP(char* pattern, char* text) {
 
 }
 
-//Test at main
-int main() {
-    char text[] = "ABABDABACDABABCABAB";
-    char pattern[] =  "ABABCABAB";
-    KMP(pattern, text);
-    return 0;
-}

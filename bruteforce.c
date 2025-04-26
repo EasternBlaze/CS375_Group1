@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "bruteforce.h"
 
 //Using bruteforce func
 void bruteforce(char* pattern, char *text)
@@ -26,9 +27,3 @@ void bruteforce(char* pattern, char *text)
     }
 }
 
-int main()
-{
-    char text[] =  "ABABDABACDABABCABAB";
-    char pattern[]= "ABABCABAB";
-    bruteforce(pattern, text);
-}
