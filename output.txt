@@ -1,0 +1,20 @@
+[Short Case]
+Brute Force: 0.00 ms
+KMP: 0.03 ms
+Rabin-Karp: 0.00 ms
+
+[Repetitive Pattern Case]
+Brute Force: 0.04 ms
+KMP: 0.03 ms
+Rabin-Karp: 0.03 ms
+
+[Long Random Case]
+Brute Force: 0.20 ms
+KMP: 0.26 ms
+Rabin-Karp: 0.38 ms
+
+[Edge/Noise Case]
+Brute Force: 0.07 ms
+KMP: 0.06 ms
+Rabin-Karp: 0.08 ms
+
