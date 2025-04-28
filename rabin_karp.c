@@ -2,7 +2,7 @@
 #include <string.h>
 
 #define d 256             // Number of characters in input alphabet (ASCII)
-#define q 1009             // A prime number to reduce collisions (Division method)
+#define q 10007             // A prime number to reduce collisions (Division method)
  
 int rabinKarp(char* pattern, char* text){
     int n = strlen(text);
