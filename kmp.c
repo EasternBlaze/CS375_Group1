@@ -24,11 +24,12 @@ void DoLPS(char* pattern, int M, int* lps)
     }
 }
 
-void KMP(char* pattern, char* text) {
+int KMP(char* pattern, char* text) {
     int M = strlen(pattern);
     int N = strlen(text);
 
     int lps[M]; //lps which hold longest prefix subproblem
+    int matchCount = 0;
     DoLPS(pattern, M, lps);
     int i = 0;
     int j= 0;
@@ -41,7 +42,8 @@ void KMP(char* pattern, char* text) {
         }
         if(j==M) 
         {
-            printf("Found pattern at index %d\n", i -j);
+            //printf("Found pattern at index %d\n", i -j);
+            matchCount++;
             j = lps[j-1];
         }
         else if(i<N && pattern[j]!= text[i])
@@ -55,6 +57,7 @@ void KMP(char* pattern, char* text) {
             }
         }
     }
+    return matchCount;
 
 
 }

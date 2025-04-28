@@ -3,10 +3,11 @@
 #include "bruteforce.h"
 
 //Using bruteforce func
-void bruteforce(char* pattern, char *text)
+int bruteforce(char* pattern, char *text)
 {
     int M = strlen(pattern);
     int N = strlen(text);
+    int matchCount = 0;
 
     for(int i =0 ; i<=N-M; i++)
     {
@@ -21,9 +22,10 @@ void bruteforce(char* pattern, char *text)
         }
         //If pattern is match
         if(j==M) {
-            printf("Pattern found at index %d\n", i);
-
+           // printf("Pattern found at index %d\n", i);
+           matchCount++;
         }
     }
+    return matchCount;
 }
 

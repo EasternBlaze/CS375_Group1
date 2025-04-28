@@ -1,20 +1,20 @@
 [Short Case]
-Brute Force: 0.00 ms
-KMP: 0.03 ms
-Rabin-Karp: 0.00 ms
+Brute Force: 0.00 ms, Matches: 38
+KMP: 0.00 ms, Matches: 38
+Rabin-Karp: 0.00 ms, Matches: 38
 
 [Repetitive Pattern Case]
-Brute Force: 0.04 ms
-KMP: 0.03 ms
-Rabin-Karp: 0.03 ms
+Brute Force: 1.00 ms, Matches: 49998
+KMP: 0.00 ms, Matches: 49998
+Rabin-Karp: 0.00 ms, Matches: 49998
 
 [Long Random Case]
-Brute Force: 0.20 ms
-KMP: 0.26 ms
-Rabin-Karp: 0.38 ms
+Brute Force: 24.00 ms, Matches: 0
+KMP: 31.00 ms, Matches: 0
+Rabin-Karp: 41.00 ms, Matches: 0
 
 [Edge/Noise Case]
-Brute Force: 0.07 ms
-KMP: 0.06 ms
-Rabin-Karp: 0.08 ms
+Brute Force: 0.00 ms, Matches: 0
+KMP: 0.00 ms, Matches: 0
+Rabin-Karp: 0.00 ms, Matches: 0
 

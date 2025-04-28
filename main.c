@@ -51,11 +51,12 @@ void writeOutputFile(const char*filename, const char* output) {
 }
 
 void runTest(char* result, const char* caseName, const char* filename, int caseID) {
-    char pattern[] = "ABABCABAB";
+    char pattern[] = "ABABAB";
     char* text;
     clock_t start, end;
-    double kmp_time; double brute_time; double rk_time;
-    char temp[256]; // buffer to hold time
+    double kmp_time, brute_time, rk_time;
+    int kmp_matches, brute_matches, rk_matches;
+    char temp[512]; // Made buffer bigger for printing times + matches
 
     printf("\n[%s]\n", caseName);
 
@@ -68,7 +69,7 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
             genRepetitive(filename);
             break;
         case 2:
-            genLongRandom(filename, 100000);
+            genLongRandom(filename, 10000000);
             break;
         case 3:
             genNoMatch(filename);
@@ -80,31 +81,34 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
 
     text = readTextFile(filename);
 
+    // Time KMP
     start = clock();
-    KMP(pattern, text);
+    kmp_matches = KMP(pattern, text);
     end = clock();
     kmp_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
 
+    // Time Brute Force
     start = clock();
-    bruteforce(pattern, text);
+    brute_matches = bruteforce(pattern, text);
     end = clock();
     brute_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
 
+    // Time Rabin-Karp
     start = clock();
-    rabinKarp(pattern, text);
+    rk_matches = rabinKarp(pattern, text);
     end = clock();
     rk_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
 
+    // Print result
+    printf("Brute Force time: %.2f ms, Matches: %d\n", brute_time, brute_matches);
+    printf("KMP time: %.2f ms, Matches: %d\n", kmp_time, kmp_matches);
+    printf("Rabin-Karp time: %.2f ms, Matches: %d\n", rk_time, rk_matches);
 
-    printf("Brute Force time: %.2f ms\n", brute_time);
-    printf("KMP time: %.2f ms\n", kmp_time);
-    printf("Rabin_Karp time: %.2f ms\n", rk_time);
-
-    //part to write out results
+    // Write result to result buffer
     sprintf(temp, "[%s]\n", caseName);
-    sprintf(temp + strlen(temp), "Brute Force: %.2f ms\n", brute_time);
-    sprintf(temp + strlen(temp), "KMP: %.2f ms\n", kmp_time);
-    sprintf(temp + strlen(temp), "Rabin-Karp: %.2f ms\n\n", rk_time);
+    sprintf(temp + strlen(temp), "Brute Force: %.2f ms, Matches: %d\n", brute_time, brute_matches);
+    sprintf(temp + strlen(temp), "KMP: %.2f ms, Matches: %d\n", kmp_time, kmp_matches);
+    sprintf(temp + strlen(temp), "Rabin-Karp: %.2f ms, Matches: %d\n\n", rk_time, rk_matches);
 
     strcat(result, temp);
 

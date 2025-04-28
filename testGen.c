@@ -12,7 +12,9 @@ void genShort(const char* filename) {
         exit(1);
     }
 
-    fprintf(file, "ABABDABACDABABCABAB");
+    for (int i = 0; i < 20; i++) {
+        fprintf(file, "ABABDABACDABABCABAB"); // repeat 20 times
+    }
     fclose(file);
 }
 
@@ -24,7 +26,7 @@ void genRepetitive(const char* filename) {
         exit(1);
     }
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 12500; i++) {  // 12500 × 8 = 100,000 letters
         fprintf(file, "ABABABAB");
     }
     

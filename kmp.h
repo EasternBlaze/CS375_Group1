@@ -1,6 +1,6 @@
 #ifndef KMP_H
 #define KMP_H
 
-void KMP(char *pattern, char *text);
+int KMP(char *pattern, char *text);
 
 #endif
