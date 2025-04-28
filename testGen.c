@@ -33,34 +33,7 @@ void genRepetitive(const char* filename) {
 
     fclose(file);
 }
-
 /*
-void genLongRandom(const char* filename, int length) {
-    FILE* file = fopen(filename, "w");
-    if (!file) {
-        printf("Error opening file %s\n", filename);
-        exit(1);
-    }
-
-    const char* pattern = "ABABCABAB";
-    int patternLen = strlen(pattern);
-
-    for (int i = 0; i < length;) {
-        // Randomly insert the real pattern every ~2000 characters
-        if (rand() % 2000 == 0 && i + patternLen < length) {
-            fputs(pattern, file);
-            i += patternLen;
-        } else {
-            char c = 'A' + rand() % 26; // Random capital letter
-            fputc(c, file);
-            i++;
-        }
-    }
-
-    fclose(file);
-}
-*/
-
 // For Rabin-Karp / hash based: very long & random
 // increased frequency of pattern insertion and used full ASCII instead of just alphabets
 void genLongRandom(const char* filename, int length) {
@@ -83,6 +56,33 @@ void genLongRandom(const char* filename, int length) {
         } else {
             // rng for ASCII character
             char c = 32 + rand() % alphabet_size;
+            fputc(c, file);
+            i++;
+        }
+    }
+
+    fclose(file);
+}
+*/
+
+void genLongRandom(const char* filename, int length) {
+    FILE* file = fopen(filename, "w");
+    if (!file) {
+        printf("Error opening file %s\n", filename);
+        exit(1);
+    }
+
+    const char* pattern = "ABACADABACADABACADABACADABACADABACADABACADABACAD"; // longer pattern
+    int patternLen = strlen(pattern);
+
+    for (int i = 0; i < length;) {
+        // Insert the pattern very sparsely
+        if ((i % 100000 == 0) && (i + patternLen < length)) {
+            fputs(pattern, file);
+            i += patternLen;
+        } else {
+            // Choose from a small set of characters (A, B, C, D)
+            char c = 'A' + (rand() % 4);
             fputc(c, file);
             i++;
         }
