@@ -17,9 +17,15 @@ void DoLPS(char* pattern, int M, int* lps)
             i++;
         }
         else {
+
+            if (length != 0) {
+                length = lps[length - 1];
+            }
             //else length =0
+            else{
             lps[i] = 0;
             i++;
+            }
         }
     }
 }
