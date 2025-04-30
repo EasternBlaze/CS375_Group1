@@ -52,11 +52,34 @@ void writeOutputFile(const char*filename, const char* output) {
 }
 
 void runTest(char* result, const char* caseName, const char* filename, int caseID) {
-    char pattern[] = "ABABAB";
+    //char pattern[] = "ABABAB";
+
+    char* patterns[100];
+    int patternCount = 0;
+    char line[256];
+    
+    if (caseID == 2) {  // multiple patterns only for case 2
+        FILE* pfile = fopen("multi.txt", "r");
+        if (!pfile) {
+            printf("Failed to open multi.txt!\n");
+            exit(1);
+        }
+        while (fgets(line, sizeof(line), pfile)) {
+            line[strcspn(line, "\n")] = 0;
+            patterns[patternCount++] = strdup(line);
+        }
+        fclose(pfile);
+    } else {
+        patterns[0] = strdup("ABABAB");
+        patternCount = 1;
+    }
+    
+
+
     char* text;
     clock_t start, end;
-    double kmp_time, brute_time, rk_time, bm_time;
-    int kmp_matches, brute_matches, rk_matches, bm_matches;
+    double kmp_time = 0, brute_time = 0, rk_time = 0, bm_time = 0;
+    int kmp_matches = 0, brute_matches = 0, rk_matches = 0, bm_matches = 0;
     char temp[512]; // Made buffer bigger for printing times + matches
 
     printf("\n[%s]\n", caseName);
@@ -70,8 +93,9 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
             genRepetitive(filename);
             break;
         case 2:
-            genLongRandom(filename, 10000000);
+            genMultiple(filename, (const char**)patterns, patternCount, 10000000);
             break;
+        
         case 3:
             genNoMatch(filename);
             break;
@@ -80,32 +104,50 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
             return;
     }
 
-    text = readTextFile(filename);
+    //for multi-patterned rabinKarp
+    text = readTextFile(filename); // must be called before any algorithm uses `text`
 
-    // Time KMP
+    // Rabin-Karp timing — done ONCE for the whole test case
     start = clock();
-    kmp_matches = KMP(pattern, text);
-    end = clock();
-    kmp_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
-
-    // Time Brute Force
-    start = clock();
-    brute_matches = bruteforce(pattern, text);
-    end = clock();
-    brute_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
-
-    // Time Rabin-Karp
-    start = clock();
-    rk_matches = rabinKarp(pattern, text);
+    if (caseID == 2) {
+        rk_matches = rabinKarpMulti((const char**)patterns, patternCount, text);
+    } else {
+        rk_matches = rabinKarp(patterns[0], text);
+    }
     end = clock();
     rk_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
 
-    // Time Boyer-Moore
-    start = clock();
-    bm_matches = boyer_moore(pattern, text);
-    end = clock();
-    bm_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+    for (int p = 0; p < patternCount; p++) {
+        char* pattern = patterns[p];
 
+        // Time Brute Force
+        start = clock();
+        brute_matches += bruteforce(pattern, text);
+        end = clock();
+        brute_time += ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+
+        // Time KMP
+        start = clock();
+        kmp_matches += KMP(pattern, text);
+        end = clock();
+        kmp_time += ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+
+        /*
+        // Time for Rabin-Karp
+        start = clock();
+        rk_matches += rabinKarp(pattern, text);
+        end = clock();
+        rk_time += ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+        */
+
+        // Time Boyer-Moore
+        start = clock();
+        bm_matches += boyer_moore(pattern, text);
+        end = clock();
+        bm_time += ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+
+        free(patterns[p]);
+    }
     // Print result
     printf("Brute Force time: %.2f ms, Matches: %d\n", brute_time, brute_matches);
     printf("KMP time: %.2f ms, Matches: %d\n", kmp_time, kmp_matches);
@@ -116,7 +158,7 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
     sprintf(temp, "[%s]\n", caseName);
     sprintf(temp + strlen(temp), "Brute Force: %.2f ms, Matches: %d\n", brute_time, brute_matches);
     sprintf(temp + strlen(temp), "KMP: %.2f ms, Matches: %d\n", kmp_time, kmp_matches);
-    sprintf(temp + strlen(temp), "Rabin-Karp: %.2f ms, Matches: %d\n\n", rk_time, rk_matches);
+    sprintf(temp + strlen(temp), "Rabin-Karp: %.2f ms, Matches: %d\n", rk_time, rk_matches);
     sprintf(temp + strlen(temp), "Boyer-Moore: %.2f ms, Matches: %d\n\n", bm_time, bm_matches);
 
     strcat(result, temp);
@@ -146,7 +188,7 @@ int main() {
 
     runTest(result, "Short Case", testFile, 0);
     runTest(result, "Repetitive Pattern Case", testFile, 1);
-    runTest(result, "Long Random Case", testFile, 2);
+    runTest(result, "Multiple Patterns Case", testFile, 2);
     runTest(result, "Edge/Noise Case", testFile, 3);
 
     writeOutputFile("output.txt", result);

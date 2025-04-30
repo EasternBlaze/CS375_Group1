@@ -33,56 +33,29 @@ void genRepetitive(const char* filename) {
 
     fclose(file);
 }
-/*
-// For Rabin-Karp / hash based: very long & random
-// increased frequency of pattern insertion and used full ASCII instead of just alphabets
-void genLongRandom(const char* filename, int length) {
-    FILE* file = fopen(filename, "w");
-    if (!file) {
-        printf("Error opening file %s\n", filename);
-        exit(1);
-    }
-    // longer lattern for this case
-    const char* pattern = "ABACBCACBACBACBABCABCACBCBACABCABCACBCACABCBAAB";
-    int patternLen = strlen(pattern);
 
-    int alphabet_size = 95;  // 126 - 32 + 1
-
-    for (int i = 0; i < length;) {
-        // Insert the real pattern every ~100 characters
-        if ((i % 100 == 0) && (i + patternLen < length)) {
-            fputs(pattern, file);
-            i += patternLen;
-        } else {
-            // rng for ASCII character
-            char c = 32 + rand() % alphabet_size;
-            fputc(c, file);
-            i++;
-        }
-    }
-
-    fclose(file);
-}
-*/
-
-void genLongRandom(const char* filename, int length) {
+void genMultiple(const char* filename, const char* patterns[], int numPatterns, int length) {
     FILE* file = fopen(filename, "w");
     if (!file) {
         printf("Error opening file %s\n", filename);
         exit(1);
     }
 
-    const char* pattern = "ABACADABACADABACADABACADABACADABACADABACADABACAD"; // longer pattern
-    int patternLen = strlen(pattern);
+    int patternInsertInterval = length / (numPatterns * 10);
+    int nextInsert = patternInsertInterval;
+    int i = 0;
 
-    for (int i = 0; i < length;) {
-        // Insert the pattern very sparsely
-        if ((i % 100000 == 0) && (i + patternLen < length)) {
-            fputs(pattern, file);
-            i += patternLen;
-        } else {
-            // Choose from a small set of characters (A, B, C, D)
-            char c = 'A' + (rand() % 4);
+    srand(time(NULL)); // seed random
+
+    while (i < length) {
+        if (i >= nextInsert && (i + 50 < length)) {
+            const char* pat = patterns[rand() % numPatterns];
+            fputs(pat, file);
+            i += strlen(pat);
+            nextInsert += patternInsertInterval;
+        } 
+        else {
+            char c = 'A' + (rand() % 26);
             fputc(c, file);
             i++;
         }

@@ -2,27 +2,23 @@
 Brute Force: 0.01 ms, Matches: 38
 KMP: 0.01 ms, Matches: 38
 Rabin-Karp: 0.01 ms, Matches: 38
-
 Boyer-Moore: 0.01 ms, Matches: 38
 
 [Repetitive Pattern Case]
-Brute Force: 1.84 ms, Matches: 49998
-KMP: 0.85 ms, Matches: 49998
-Rabin-Karp: 3.06 ms, Matches: 49998
+Brute Force: 1.37 ms, Matches: 49998
+KMP: 0.96 ms, Matches: 49998
+Rabin-Karp: 1.96 ms, Matches: 49998
+Boyer-Moore: 1.94 ms, Matches: 49998
 
-Boyer-Moore: 2.21 ms, Matches: 49998
-
-[Long Random Case]
-Brute Force: 116.45 ms, Matches: 2533
-KMP: 118.33 ms, Matches: 2533
-Rabin-Karp: 159.78 ms, Matches: 2533
-
-Boyer-Moore: 51.61 ms, Matches: 2533
+[Multiple Patterns Case]
+Brute Force: 2256.10 ms, Matches: 3672
+KMP: 2292.71 ms, Matches: 3672
+Rabin-Karp: 942.31 ms, Matches: 3672
+Boyer-Moore: 1382.11 ms, Matches: 3258
 
 [Edge/Noise Case]
-Brute Force: 0.06 ms, Matches: 0
+Brute Force: 0.08 ms, Matches: 0
 KMP: 0.08 ms, Matches: 0
-Rabin-Karp: 0.23 ms, Matches: 0
-
-Boyer-Moore: 0.02 ms, Matches: 0
+Rabin-Karp: 0.14 ms, Matches: 0
+Boyer-Moore: 0.03 ms, Matches: 0
 
