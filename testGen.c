@@ -66,7 +66,7 @@ void genMultiple(const char* filename, const char* patterns[], int numPatterns, 
 
 
 // For Boyer-Moore: almost no pattern match
-void genNoMatch(const char* filename) {
+void genOneMatch(const char* filename) {
     FILE* file = fopen(filename, "w");
     if (!file) {
         printf("Error opening file %s\n", filename);
@@ -77,7 +77,7 @@ void genNoMatch(const char* filename) {
     for (int i = 0; i < 500; i++) {
         fprintf(file, "XYZXYZXYZXYZXYZ");
     }
-    fprintf(file, "ABABCABAB"); // this one's the real pattern
+    fprintf(file, "ABABAB"); // this one's the real pattern
     for (int i = 0; i < 500; i++) {
         fprintf(file, "XYZXYZXYZXYZXYZ");
     }
