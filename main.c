@@ -6,6 +6,7 @@
 #include "kmp.h"
 #include "bruteforce.h"
 #include "rabin_karp.h"
+#include "boyer_moore.h"
 
 
 //2 function for read the input.txt and provide the output.txt
@@ -54,8 +55,8 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
     char pattern[] = "ABABAB";
     char* text;
     clock_t start, end;
-    double kmp_time, brute_time, rk_time;
-    int kmp_matches, brute_matches, rk_matches;
+    double kmp_time, brute_time, rk_time, bm_time;
+    int kmp_matches, brute_matches, rk_matches, bm_matches;
     char temp[512]; // Made buffer bigger for printing times + matches
 
     printf("\n[%s]\n", caseName);
@@ -99,16 +100,24 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
     end = clock();
     rk_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
 
+    // Time Boyer-Moore
+    start = clock();
+    bm_matches = boyer_moore(pattern, text);
+    end = clock();
+    bm_time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+
     // Print result
     printf("Brute Force time: %.2f ms, Matches: %d\n", brute_time, brute_matches);
     printf("KMP time: %.2f ms, Matches: %d\n", kmp_time, kmp_matches);
     printf("Rabin-Karp time: %.2f ms, Matches: %d\n", rk_time, rk_matches);
+    printf("Boyer-Moore time: %.2f ms, Matches: %d\n", bm_time, bm_matches);
 
     // Write result to result buffer
     sprintf(temp, "[%s]\n", caseName);
     sprintf(temp + strlen(temp), "Brute Force: %.2f ms, Matches: %d\n", brute_time, brute_matches);
     sprintf(temp + strlen(temp), "KMP: %.2f ms, Matches: %d\n", kmp_time, kmp_matches);
     sprintf(temp + strlen(temp), "Rabin-Karp: %.2f ms, Matches: %d\n\n", rk_time, rk_matches);
+    sprintf(temp + strlen(temp), "Boyer-Moore: %.2f ms, Matches: %d\n\n", bm_time, bm_matches);
 
     strcat(result, temp);
 
