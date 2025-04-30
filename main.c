@@ -97,7 +97,7 @@ void runTest(char* result, const char* caseName, const char* filename, int caseI
             break;
         
         case 3:
-            genOneMatch(filename);
+        genNoMatch(filename);
             break;
         default:
             printf("Invalid case ID\n");

@@ -66,7 +66,7 @@ void genMultiple(const char* filename, const char* patterns[], int numPatterns, 
 
 
 // For Boyer-Moore: almost no pattern match
-void genOneMatch(const char* filename) {
+void genNoMatch(const char* filename) {
     FILE* file = fopen(filename, "w");
     if (!file) {
         printf("Error opening file %s\n", filename);
