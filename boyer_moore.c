@@ -18,6 +18,7 @@ void build_good_suffix(char *pattern, int P, int *shift) {
     // Border positions
     while (i > 0) {
         while (j <= P && pattern[i - 1] != pattern[j - 1]) {
+            // shift is initialized to 0 from calloc
             if (shift[j] == 0) {
                 shift[j] = j - i;
             }
@@ -27,7 +28,7 @@ void build_good_suffix(char *pattern, int P, int *shift) {
         border[i] = j;
     }
 
-    // Process prefixes
+    // if we didn't change border, do prefix
     j = border[0];
     for (i = 0; i <= P; i++) {
         if (shift[i] == 0) {
@@ -43,13 +44,10 @@ void build_good_suffix(char *pattern, int P, int *shift) {
 int boyer_moore(char *pattern, char *text) {
     int T = strlen(text);
     int P = strlen(pattern);
-    if (P == 0 || T == 0 || P > T){
-        return 0;
-    }
 
     int last[256];
-    int *shift = calloc(P + 1, sizeof(int)); // +1 for full match case
-    //using pointer because variably sized
+    int *shift = calloc(P + 1, sizeof(int));
+    //using pointer because variably sized, as opposed to fixed size last
     build_last_occurrence(pattern, P, last);
     build_good_suffix(pattern, P, shift);
 
@@ -65,15 +63,17 @@ int boyer_moore(char *pattern, char *text) {
 
         if (j < 0) {
             matches++;
-            i += shift[0];  // shift for full match
+            i += 1;  // if matches, increent 1 for overlap
         } else {
             int bad_shift = j - last[(unsigned char)text[i + j]];
             if (bad_shift < 1){
                 bad_shift = 1;
             }
 
-            int good_shift = shift[j + 1];  // shift[j+1] is used for mismatches at j
+            int good_shift = shift[j + 1];  
             int move = bad_shift;
+
+            //pick best of 2
             if (good_shift > bad_shift){
                 move = good_shift;
             }
