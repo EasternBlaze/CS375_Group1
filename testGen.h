@@ -4,6 +4,6 @@
 void genShort(const char* filename);
 void genRepetitive(const char* filename);
 void genMultiple(const char* filename, const char* patterns[], int numPatterns, int length);
-void genNoMatch(const char* filename);
+void genOneMatch(const char* filename);
 
 #endif
