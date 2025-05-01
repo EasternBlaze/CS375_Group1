@@ -77,7 +77,7 @@ void genNoMatch(const char* filename) {
     for (int i = 0; i < 500; i++) {
         fprintf(file, "XYZXYZXYZXYZXYZ");
     }
-    fprintf(file, "ABABCABAB"); // this one's the real pattern
+    fprintf(file, "ABABAB"); // this one's the real pattern
     for (int i = 0; i < 500; i++) {
         fprintf(file, "XYZXYZXYZXYZXYZ");
     }
